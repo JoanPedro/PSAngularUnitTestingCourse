@@ -22,6 +22,17 @@ describe('HeroesComponent', () => {
     sut = new HeroesComponent(mockHeroService);
   })
 
+  describe('onInit', () => {
+    it('Shoud call onInit method', () => {
+      mockHeroService.getHeroes.and.returnValue(of(heroes));
+      sut.heroes = heroes;
+
+      sut.ngOnInit()
+
+      expect(mockHeroService.getHeroes).toHaveBeenCalled();
+    })
+  })
+
   describe('delete', () => {
     it('Should remove the indicated hero from the heroes list', () => {
       mockHeroService.deleteHero.and.returnValue(of(true));
