@@ -31,11 +31,11 @@ describe('HeroComponent (Shallow Test)', () => {
     // Enable trigger changes detection cycle for the component (Bindings/Interpolation)!
     fixture.detectChanges();
 
-    // All entiry document HTML Page!
-    const DOM = fixture.nativeElement as HTMLDocument;
+    // All entiry document HTML page!
+    const doc = fixture.nativeElement as HTMLDocument;
 
-    // Select Anchor Text Content (Inside it)!
-    const anchorContent = DOM.querySelector('a').textContent;
+    // Select anchor text content (Inside it)!
+    const anchorContent = doc.querySelector('a').textContent;
 
     expect(anchorContent).toContain('Any Fake Hero')
   })
