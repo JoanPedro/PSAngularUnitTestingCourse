@@ -1,9 +1,10 @@
 import { HeroService } from './../hero.service';
 import { HeroesComponent } from './heroes.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA, Component, Input } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { of } from 'rxjs';
 import { Hero } from '../hero';
+import { By } from '@angular/platform-browser';
 
 describe('HeroesComponent (Shallow Test)', () => {
   let fixture: ComponentFixture<HeroesComponent>;
@@ -40,14 +41,27 @@ describe('HeroesComponent (Shallow Test)', () => {
       { id: 2, name: 'Wonderful Women', strength: 24 },
       { id: 3, name: 'SuperDude', strength: 55 },
     ];
-  })
+  });
 
   it('Should set heroes correctly from the service', () => {
     const { sut } = makeSut(fixture);
     mockHeroService.getHeroes.and.returnValue(of(heroes));
+    fixture.detectChanges();
 
     sut.ngOnInit();
 
+    expect(sut.heroes.length).toBe(3);
     expect(sut.heroes).toEqual(heroes);
-  })
+  });
+
+  it('Should create one "li" for each hero', () => {
+    mockHeroService.getHeroes.and.returnValue(of(heroes));
+    fixture.detectChanges();
+
+    const debug: DebugElement = fixture.debugElement;
+
+    const allLiFromPage = debug.queryAll(By.css('li'));
+
+    expect(allLiFromPage.length).toEqual(3);
+  });
 })
