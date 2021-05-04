@@ -51,6 +51,15 @@ describe('HeroesComponent', () => {
       expect(result.length).toBe(3);
       expect(result).toEqual(heroes);
     })
+
+    it('Should call delete hero', () => {
+      mockHeroService.deleteHero.and.returnValue(of(true));
+      sut.heroes = heroes;
+
+      sut.delete(heroes[2]);
+
+      expect(mockHeroService.deleteHero).toHaveBeenCalledWith(heroes[2]);
+    })
   })
 
   describe('create', () => {
@@ -84,6 +93,16 @@ describe('HeroesComponent', () => {
       expect(result.length).toBe(3);
       expect(result).toEqual(heroes);
     })
+
+    it('Should call add hero', () => {
+      const fakeHero: Hero = { id: 4, name: 'A Fake Hero', strength: 11 };
+      mockHeroService.addHero.and.returnValue(of(fakeHero));
+      sut.heroes = heroes;
+
+      sut.add(fakeHero.name);
+
+      expect(mockHeroService.addHero).toHaveBeenCalledWith({ name: fakeHero.name, strength: fakeHero.strength } as Hero)
+    })
   })
 
   describe('list', () => {
@@ -99,6 +118,15 @@ describe('HeroesComponent', () => {
       const result = sut.heroes;
 
       expect(result.length).toBe(4);
+    })
+
+    it('Should call getHeroes', () => {
+      mockHeroService.getHeroes.and.returnValue(of(heroes));
+      sut.heroes = heroes;
+
+      sut.getHeroes();
+
+      expect(mockHeroService.getHeroes).toHaveBeenCalled();
     })
   })
 })
