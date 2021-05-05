@@ -9,8 +9,15 @@ describe('HeroService', () => {
   let mockMessageService: jasmine.SpyObj<MessageService>;
   let httpTestingController: HttpTestingController;
   let heroService: HeroService;
+  let heroes: Array<Hero>;
 
   beforeEach(() => {
+    heroes = [
+      { id: 1, name: 'SpiderDude', strength: 8 },
+      { id: 2, name: 'Wonderful Women', strength: 24 },
+      { id: 3, name: 'SuperDude', strength: 55 },
+    ];
+
     mockMessageService = jasmine.createSpyObj(['add', 'clear']);
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -35,6 +42,17 @@ describe('HeroService', () => {
 
       const req = httpTestingController.expectOne(`api/heroes/${id}`);
       req.flush(fakeHero);
+
+      httpTestingController.verify();
+    });
+
+    it('Should call gets with the correct URL', () => {
+      heroService.getHeroes().subscribe({
+        next: (heroes: Array<Hero>) => expect(heroes).toEqual(heroes)
+      });
+
+      const req = httpTestingController.expectOne(`api/heroes`);
+      req.flush(heroes);
 
       httpTestingController.verify();
     });
