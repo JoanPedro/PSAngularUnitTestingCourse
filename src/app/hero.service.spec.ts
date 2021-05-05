@@ -7,6 +7,7 @@ import { HttpClientTestingModule, HttpTestingController } from "@angular/common/
 describe('HeroService', () => {
   let mockMessageService: jasmine.SpyObj<MessageService>;
   let httpTestingController: HttpTestingController;
+  let heroService: HeroService;
 
   beforeEach(() => {
     mockMessageService = jasmine.createSpyObj(['add', 'clear']);
@@ -20,19 +21,13 @@ describe('HeroService', () => {
 
     // Handle a Service: ex. const heroService = TestBed.get(HeroService)
     httpTestingController = TestBed.get(HttpTestingController);
+    heroService = TestBed.get(HeroService);
   })
 
   describe('getHero', () => {
-    it('Should call get with the correct URL',
-      inject([
-        HeroService,
-        HttpTestingController
-      ], (
-        heroService: HeroService,
-        controller: HttpClientTestingModule
-      ) => {
-        heroService.getHero(4).subscribe();
-      }
-    ));
+    it('Should call get with the correct URL', () => {
+      heroService.getHero(4).subscribe();
+
+    });
   });
 })
