@@ -3,7 +3,7 @@ import { Hero } from './../hero';
 import { HeroesComponent } from './heroes.component';
 import { of } from 'rxjs';
 
-describe('HeroesComponent', () => {
+describe('HeroesComponent (Using Dependency Injection by HAND & MOCKS)', () => {
   let sut: HeroesComponent;
   let heroes: Hero[];
   let mockHeroService: jasmine.SpyObj<HeroService>;

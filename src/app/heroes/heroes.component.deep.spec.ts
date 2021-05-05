@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { Hero } from '../hero';
 import { By } from '@angular/platform-browser';
 
-describe('HeroesComponent (Deep Test)', () => {
+describe('HeroesComponent (Deep Test [Integration Test with Parent & Child Components])', () => {
   let fixture: ComponentFixture<HeroesComponent>;
   let mockHeroService: jasmine.SpyObj<HeroService>;
   let heroes: Hero[];

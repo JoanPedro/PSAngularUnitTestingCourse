@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { Hero } from '../hero';
 import { By } from '@angular/platform-browser';
 
-describe('HeroesComponent (Shallow Test)', () => {
+describe('HeroesComponent (Shallow Test [Using Dependency Injection by TESTBED & MOCKS & FIXTURE])', () => {
   let fixture: ComponentFixture<HeroesComponent>;
   let mockHeroService: jasmine.SpyObj<HeroService>;
   let heroes: Hero[];
@@ -54,6 +54,7 @@ describe('HeroesComponent (Shallow Test)', () => {
     expect(sut.heroes).toEqual(heroes);
   });
 
+  // Testing HTML Template Page -> Move to another test file
   it('Should create one "li" for each hero', () => {
     mockHeroService.getHeroes.and.returnValue(of(heroes));
     fixture.detectChanges();
