@@ -1,6 +1,6 @@
 import { MessageService } from './message.service';
 import { HeroService } from './hero.service';
-import { TestBed } from "@angular/core/testing"
+import { inject, TestBed } from "@angular/core/testing"
 import { Provider } from '@angular/core';
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing"
 
@@ -11,7 +11,7 @@ describe('HeroService', () => {
   beforeEach(() => {
     mockMessageService = jasmine.createSpyObj(['add', 'clear']);
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [
         HeroService,
         { provide: MessageService, useValue: mockMessageService }
@@ -21,4 +21,18 @@ describe('HeroService', () => {
     // Handle a Service: ex. const heroService = TestBed.get(HeroService)
     httpTestingController = TestBed.get(HttpTestingController);
   })
+
+  describe('getHero', () => {
+    it('Should call get with the correct URL',
+      inject([
+        HeroService,
+        HttpTestingController
+      ], (
+        heroService: HeroService,
+        controller: HttpClientTestingModule
+      ) => {
+        heroService.getHero(4).subscribe();
+      }
+    ));
+  });
 })
