@@ -3,6 +3,7 @@ import { HeroService } from './hero.service';
 import { inject, TestBed } from "@angular/core/testing"
 import { Provider } from '@angular/core';
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing"
+import { Hero } from './hero';
 
 describe('HeroService', () => {
   let mockMessageService: jasmine.SpyObj<MessageService>;
@@ -26,8 +27,16 @@ describe('HeroService', () => {
 
   describe('getHero', () => {
     it('Should call get with the correct URL', () => {
-      heroService.getHero(4).subscribe();
+      const id: number = 4;
+      const fakeHero: Hero = { id, name: 'Any Fake Hero', strength: 99 }
+      heroService.getHero(id).subscribe({
+        next: (hero: Hero) => expect(hero).toEqual(fakeHero)
+      });
 
+      const req = httpTestingController.expectOne(`api/heroes/${id}`);
+      req.flush(fakeHero);
+
+      httpTestingController.verify();
     });
   });
 })
