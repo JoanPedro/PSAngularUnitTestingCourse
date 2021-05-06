@@ -1,6 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ComponentFixture, TestBed } from "@angular/core/testing"
+import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing"
 import { Provider } from '@angular/core';
 import { Location } from '@angular/common';
 import { HeroService } from './../hero.service';
@@ -52,12 +52,13 @@ describe('HeroDetailComponent', () => {
     expect(h2Content_).toContain('ANY FAKE NAME')
   })
 
-  it('Should call updateHero when save is called', (done) => {
+  it('Should call updateHero when save is called', fakeAsync(() => {
     mockHeroService.updateHero.and.returnValue(of({}));
+    fixture.detectChanges();
+
     fixture.componentInstance.save();
-    setTimeout(() => {
-      expect(mockHeroService.updateHero).toHaveBeenCalled()
-      done();
-    }, 300);
-  })
+    tick(250);
+
+    expect(mockHeroService.updateHero).toHaveBeenCalled();
+  }))
 })
