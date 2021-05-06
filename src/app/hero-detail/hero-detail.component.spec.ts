@@ -7,6 +7,7 @@ import { HeroService } from './../hero.service';
 import { HeroDetailComponent } from './hero-detail.component';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { assert } from 'console';
 
 describe('HeroDetailComponent', () => {
   let mockHeroService: jasmine.SpyObj<HeroService>;
@@ -49,5 +50,14 @@ describe('HeroDetailComponent', () => {
 
     expect(h2Content).toContain('ANY FAKE NAME')
     expect(h2Content_).toContain('ANY FAKE NAME')
+  })
+
+  it('Should call updateHero when save is called', (done) => {
+    mockHeroService.updateHero.and.returnValue(of({}));
+    fixture.componentInstance.save();
+    setTimeout(() => {
+      expect(mockHeroService.updateHero).toHaveBeenCalled()
+      done();
+    }, 300);
   })
 })
