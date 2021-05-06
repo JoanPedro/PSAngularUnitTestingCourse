@@ -1,11 +1,11 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { HeroComponent } from './../hero/hero.component';
 import { HeroService } from './../hero.service';
 import { HeroesComponent } from './heroes.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, DebugElement, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 import { Hero } from '../hero';
-import { By } from '@angular/platform-browser';
 
 describe('HeroesComponent (Deep Test [Integration Test with Parent & Child Components])', () => {
   let fixture: ComponentFixture<HeroesComponent>;
