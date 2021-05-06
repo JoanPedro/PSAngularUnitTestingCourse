@@ -1,11 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Directive, Input, NO_ERRORS_SCHEMA, Provider } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HeroComponent } from './../hero/hero.component';
 import { HeroService } from './../hero.service';
 import { HeroesComponent } from './heroes.component';
 import { of } from 'rxjs';
 import { Hero } from '../hero';
+import { Router } from '@angular/router';
+
+@Directive({
+  selector: '[routerLink]',
+  host: { '(click)': 'onClick()' }
+})
+class RouterLinkDirectiveStub {
+  @Input('routerLink') linkParams: any;
+  navigateTo: any = null;
+
+  onClick() {
+    this.navigateTo = this.linkParams;
+  }
+}
 
 describe('HeroesComponent (Deep Test [Integration Test with Parent & Child Components])', () => {
   let fixture: ComponentFixture<HeroesComponent>;
@@ -34,11 +48,11 @@ describe('HeroesComponent (Deep Test [Integration Test with Parent & Child Compo
     ]);
 
     TestBed.configureTestingModule({
-      declarations: [HeroesComponent, HeroComponent],
+      declarations: [HeroesComponent, HeroComponent, RouterLinkDirectiveStub],
       providers: [
-        { provide: HeroService, useValue: mockHeroService }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+        { provide: HeroService, useValue: mockHeroService },
+      ] as Array<Provider>,
+      // schemas: [NO_ERRORS_SCHEMA]
     })
 
     fixture = TestBed.createComponent(HeroesComponent);
