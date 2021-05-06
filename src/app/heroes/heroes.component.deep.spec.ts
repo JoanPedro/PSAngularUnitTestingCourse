@@ -34,11 +34,11 @@ describe('HeroesComponent (Deep Test [Integration Test with Parent & Child Compo
     ]);
 
     TestBed.configureTestingModule({
-      declarations: [ HeroesComponent, HeroComponent ],
+      declarations: [HeroesComponent, HeroComponent],
       providers: [
         { provide: HeroService, useValue: mockHeroService }
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     })
 
     fixture = TestBed.createComponent(HeroesComponent);
@@ -58,4 +58,24 @@ describe('HeroesComponent (Deep Test [Integration Test with Parent & Child Compo
       expect(heroComponentDE.componentInstance.hero).toEqual(heroes[index])
     })
   });
+
+  it(`Should call heroService.deleteHero when
+    the Hero Component's delete button is clicked`, () => {
+    const heroesComponent = fixture.componentInstance;
+
+    // Watch HeroesComponent delete method!
+    spyOn(heroesComponent, 'delete');
+
+    const debugElements = fixture.debugElement;
+    const heroComponents = debugElements.queryAll(By.directive(HeroComponent));
+
+    /* In HeroComponent, the delete method use event -> stopPragation method.
+      So, mock this method in on dummy test double! (It can be doing by Jasmine's spyObj) */
+    heroComponents.forEach((heroDE, index) => {
+      heroDE.query(By.css('button'))
+        .triggerEventHandler('click', { stopPropagation: () => { } });
+
+      expect(heroesComponent.delete).toHaveBeenCalledWith(heroes[index]);
+    })
+  })
 });
