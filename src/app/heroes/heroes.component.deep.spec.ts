@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Directive, Input, NO_ERRORS_SCHEMA, Provider } from '@angular/core';
+import { Directive, Input, Provider } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HeroComponent } from './../hero/hero.component';
 import { HeroService } from './../hero.service';
 import { HeroesComponent } from './heroes.component';
 import { of } from 'rxjs';
 import { Hero } from '../hero';
-import { Router } from '@angular/router';
 
 @Directive({
   selector: '[routerLink]',
@@ -127,5 +126,14 @@ describe('HeroesComponent (Deep Test [Integration Test with Parent & Child Compo
     const heroText = (debugElements.query(By.css('ul')).nativeElement as HTMLUListElement).textContent;
 
     expect(heroText).toContain(name);
+  })
+
+  it('Should hhave the correct route for the first hero', () => {
+    const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
+    const routerLink = heroComponents[0].query(By.directive(RouterLinkDirectiveStub)).injector.get(RouterLinkDirectiveStub);
+
+    heroComponents[0].query(By.css('a')).triggerEventHandler('click', null);
+
+    expect(routerLink.navigateTo).toBe('/detail/1');
   })
 });
