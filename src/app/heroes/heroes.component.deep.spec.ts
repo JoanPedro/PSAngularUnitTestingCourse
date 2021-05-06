@@ -78,4 +78,22 @@ describe('HeroesComponent (Deep Test [Integration Test with Parent & Child Compo
       expect(heroesComponent.delete).toHaveBeenCalledWith(heroes[index]);
     })
   })
+
+  it(`Should call heroService.deleteHero when
+    the event raising on child directive`, () => {
+    const heroesComponent = fixture.componentInstance;
+
+    // Watch HeroesComponent delete method!
+    spyOn(heroesComponent, 'delete');
+
+    const debugElements = fixture.debugElement;
+    const heroComponents = debugElements.queryAll(By.directive(HeroComponent));
+
+    /* In HeroComponent, the delete event is handling.
+      So, emit itselft! */
+    heroComponents.forEach((heroDE, index) => {
+      heroDE.triggerEventHandler('delete', null);
+      expect(heroesComponent.delete).toHaveBeenCalledWith(heroes[index]);
+    })
+  })
 });
