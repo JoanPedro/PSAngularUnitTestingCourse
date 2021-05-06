@@ -96,4 +96,22 @@ describe('HeroesComponent (Deep Test [Integration Test with Parent & Child Compo
       expect(heroesComponent.delete).toHaveBeenCalledWith(heroes[index]);
     })
   })
+
+  it('Should add a new hero to the hero list when the add button is clicked', () => {
+    const name = 'Any new hero name';
+    mockHeroService.addHero.and.returnValue(of({ id: 5, name, strength: 11 }));
+    const debugElements = fixture.debugElement;
+    const inputElement = (debugElements.query(By.css('input')).nativeElement as HTMLInputElement);
+    const addButtomDE = (debugElements.queryAll(By.css('button'))[0]);
+
+    inputElement.value = name;
+    addButtomDE.triggerEventHandler('click', null);
+
+    // Trigger Lifecycle change on Angular, to compute new element on HTML (DOM).
+    fixture.detectChanges();
+
+    const heroText = (debugElements.query(By.css('ul')).nativeElement as HTMLUListElement).textContent;
+
+    expect(heroText).toContain(name);
+  })
 });
