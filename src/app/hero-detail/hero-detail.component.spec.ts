@@ -1,6 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing"
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from "@angular/core/testing"
 import { Provider } from '@angular/core';
 import { Location } from '@angular/common';
 import { HeroService } from './../hero.service';
@@ -57,7 +57,7 @@ describe('HeroDetailComponent', () => {
     fixture.detectChanges();
 
     fixture.componentInstance.save();
-    tick(250);
+    flush();
 
     expect(mockHeroService.updateHero).toHaveBeenCalled();
   }))
